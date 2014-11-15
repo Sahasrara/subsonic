@@ -55,7 +55,6 @@ body {
     float:left;
     margin-top: 7px;
     margin-left: 10px;
-    margin-right: 120px;
     width: 90px;
     height: 4px;
 }
@@ -145,24 +144,16 @@ body {
     display: block;
 }
 
-#bitrate_menu {
-    font-size: 12px;
-    float: left;
-    color: #c4c4c4;
-    background-color: #444;
-    display: block;
-}
-
 .ui-slider .ui-slider-handle {
     width: 11px;
     height: 11px;
     cursor: pointer;
 }
 
-.ui-slider {
-    cursor: pointer;
+.ui-slider a {
+    outline:none;
 }
 
-.ui-slider-handle:focus {
-    outline:none;
+.ui-slider {
+    cursor: pointer;
 }

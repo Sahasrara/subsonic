@@ -19,6 +19,7 @@
 package net.sourceforge.subsonic.ajax;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -383,14 +384,16 @@ public class PlayQueueService {
 
         List<PlayQueueInfo.Entry> entries = new ArrayList<PlayQueueInfo.Entry>();
         PlayQueue playQueue = player.getPlayQueue();
-        String localIp = settingsService.getLocalIpAddress();
-        int localPort = settingsService.getPort();
+        String ip = settingsService.getLocalIpAddress();
 
         for (MediaFile file : playQueue.getFiles()) {
 
             String albumUrl = url.replaceFirst("/dwr/.*", "/main.view?id=" + file.getId());
             String streamUrl = url.replaceFirst("/dwr/.*", "/stream?player=" + player.getId() + "&id=" + file.getId());
             String coverArtUrl = url.replaceFirst("/dwr/.*", "/coverArt.view?id=" + file.getId());
+            String host = new URL(streamUrl).getHost();
+            String remoteStreamUrl = StringUtil.toHttpUrl(streamUrl.replaceFirst(host, ip), settingsService.getPort());
+            String remoteCoverArtUrl = StringUtil.toHttpUrl(coverArtUrl.replaceFirst(host, ip), settingsService.getPort());
 
             // Rewrite URLs in case we're behind a proxy.
             if (settingsService.isRewriteUrlEnabled()) {
@@ -398,15 +401,6 @@ public class PlayQueueService {
                 albumUrl = StringUtil.rewriteUrl(albumUrl, referer);
                 streamUrl = StringUtil.rewriteUrl(streamUrl, referer);
             }
-
-            boolean urlRedirectionEnabled = settingsService.isUrlRedirectionEnabled();
-            String urlRedirectFrom = settingsService.getUrlRedirectFrom();
-            String urlRedirectContextPath = settingsService.getUrlRedirectContextPath();
-
-            String remoteStreamUrl = StringUtil.rewriteRemoteUrl(streamUrl, urlRedirectionEnabled, urlRedirectFrom,
-                    urlRedirectContextPath, localIp, localPort);
-            String remoteCoverArtUrl = StringUtil.rewriteRemoteUrl(coverArtUrl, urlRedirectionEnabled, urlRedirectFrom,
-                    urlRedirectContextPath, localIp, localPort);
 
             String format = formatFormat(player, file);
             String username = securityService.getCurrentUsername(request);

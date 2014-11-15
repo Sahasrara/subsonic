@@ -26,9 +26,7 @@
             </ul>
             <p>
                 The price is always the same, $1 per month, so if you pay for instance the equivalent of $12 your license
-                will be valid for 12 months. For Bitcoin payments, please find the conversion rate on
-                <a href="http://preev.com" target="_blank">preev.com</a>, and send us an <a href="mailto:mail@subsonic.org">email</a>
-                after you made the payment to let us know where to send the license key.
+                will be valid for 12 months.
             </p>
 
             <h3>How long does it take to get the license after I have made the payment?</h3>

@@ -201,6 +201,7 @@
                 <bean class="net.sourceforge.subsonic.service.metadata.FFmpegParser">
                     <property name="transcodingService" ref="transcodingService"/>
                 </bean>
+                <bean class="net.sourceforge.subsonic.service.metadata.GMEMetaDataParser"/>
                 <bean class="net.sourceforge.subsonic.service.metadata.DefaultMetaDataParser"/>
             </list>
         </property>

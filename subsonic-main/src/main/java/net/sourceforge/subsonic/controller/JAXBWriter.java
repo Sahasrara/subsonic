@@ -31,6 +31,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 import org.eclipse.persistence.jaxb.JAXBContext;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.jdom.Attribute;
@@ -152,10 +153,29 @@ public class JAXBWriter {
             RESTController.ErrorCode code, String message) throws Exception {
         Response res = createResponse(false);
         Error error = new Error();
+        int subsonicErrorCode = code.getCode();
         res.setError(error);
-        error.setCode(code.getCode());
+        error.setCode(subsonicErrorCode);
         error.setMessage(message);
-        writeResponse(request, response, res);
+        // Set Proper HTTP Response Code
+        if (subsonicErrorCode == RESTController.ErrorCode.GENERIC.getCode()) {
+            response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.MISSING_PARAMETER.getCode()) {
+            response.setStatus(HttpStatus.SC_BAD_REQUEST);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.NOT_AUTHENTICATED.getCode()) {
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.NOT_AUTHORIZED.getCode()) {
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.NOT_FOUND.getCode()) {
+            response.setStatus(HttpStatus.SC_NOT_FOUND);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.NOT_LICENSED.getCode()) {
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.PROTOCOL_MISMATCH_CLIENT_TOO_OLD.getCode()) {
+            response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
+        } else if (subsonicErrorCode == RESTController.ErrorCode.PROTOCOL_MISMATCH_SERVER_TOO_OLD.getCode()) {
+            response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
+        }
+        writeResponse(request, response, res);        
     }
 
     public XMLGregorianCalendar convertDate(Date date) {

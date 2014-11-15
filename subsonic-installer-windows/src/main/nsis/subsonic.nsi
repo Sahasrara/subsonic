@@ -147,6 +147,7 @@ Section "Uninstall"
   Processes::KillProcess "subsonic-agent"
   Processes::KillProcess "subsonic-agent-elevated"
   Processes::KillProcess "ffmpeg"
+  Processes::KillProcess "lame"
 
   # Remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Subsonic"

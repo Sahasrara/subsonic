@@ -18,9 +18,9 @@
  */
 package net.sourceforge.subsonic.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * A music index is a mapping from an index string to a list of prefixes.  A complete index consists of a list of
@@ -135,8 +135,7 @@ public class MusicIndex implements Serializable {
         }
 
         public int compareTo(SortableArtist artist) {
-            int n = sortableName.compareToIgnoreCase(artist.sortableName);
-            return n == 0 ? sortableName.compareTo(artist.sortableName) : n;
+            return sortableName.compareToIgnoreCase(artist.sortableName);
         }
 
         @Override
@@ -147,7 +146,8 @@ public class MusicIndex implements Serializable {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            return compareTo((SortableArtist) o) == 0;
+            SortableArtist artist = (SortableArtist) o;
+            return sortableName.equalsIgnoreCase(artist.sortableName);
         }
 
         @Override

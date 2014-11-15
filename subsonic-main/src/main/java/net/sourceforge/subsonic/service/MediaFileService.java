@@ -430,7 +430,6 @@ public class MediaFileService {
         mediaFile.setPresent(true);
 
         if (file.isFile()) {
-
             MetaDataParser parser = metaDataParserFactory.getParser(file);
             if (parser != null) {
                 MetaData metaData = parser.getMetaData(file);

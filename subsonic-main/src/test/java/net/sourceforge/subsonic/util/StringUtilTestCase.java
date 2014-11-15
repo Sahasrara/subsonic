@@ -18,11 +18,10 @@
  */
 package net.sourceforge.subsonic.util;
 
-import java.net.MalformedURLException;
-import java.util.Arrays;
-import java.util.Locale;
-
 import junit.framework.TestCase;
+
+import java.util.Locale;
+import java.util.Arrays;
 
 /**
  * Unit test of {@link StringUtil}.
@@ -205,26 +204,5 @@ public class StringUtilTestCase extends TestCase {
         assertEquals("Error in removeMarkup()", "foo", StringUtil.removeMarkup("foo"));
         assertEquals("Error in removeMarkup()", "foo", StringUtil.removeMarkup("<b>foo"));
         assertEquals("Error in removeMarkup()", null, StringUtil.removeMarkup(null));
-    }
-
-    public void testRewriteRemoteUrl() throws MalformedURLException {
-
-        assertEquals("http://192.168.1.10:4040/stream?id=42",
-                StringUtil.rewriteRemoteUrl("http://localhost:4040/stream?id=42", false, null, "", "192.168.1.10", 4040));
-        assertEquals("http://192.168.1.10:4040/subsonic/stream?id=42",
-                StringUtil.rewriteRemoteUrl("http://localhost:4040/subsonic/stream?id=42", false, null, "subsonic", "192.168.1.10", 4040));
-        assertEquals("http://192.168.1.10:4040/stream?id=42",
-                StringUtil.rewriteRemoteUrl("https://localhost:4443/stream?id=42", false, null, "", "192.168.1.10", 4040));
-        assertEquals("http://192.168.1.10:4040/subsonic/stream?id=42",
-                StringUtil.rewriteRemoteUrl("https://localhost:4443/subsonic/stream?id=42", false, null, "subsonic", "192.168.1.10", 4040));
-
-        assertEquals("http://sindre.subsonic.org:80/stream?id=42",
-                StringUtil.rewriteRemoteUrl("http://localhost:4040/stream?id=42", true, "sindre", "", "192.168.1.10", 4040));
-        assertEquals("http://sindre.subsonic.org:80/stream?id=42",
-                StringUtil.rewriteRemoteUrl("http://localhost:4040/subsonic/stream?id=42", true, "sindre", "subsonic", "192.168.1.10", 4040));
-        assertEquals("http://sindre.subsonic.org:80/stream?id=42",
-                StringUtil.rewriteRemoteUrl("https://localhost:4443/stream?id=42", true, "sindre", "", "192.168.1.10", 4040));
-        assertEquals("http://sindre.subsonic.org:80/stream?id=42",
-                StringUtil.rewriteRemoteUrl("https://localhost:4443/subsonic/stream?id=42", true, "sindre", "subsonic", "192.168.1.10", 4040));
     }
 }
