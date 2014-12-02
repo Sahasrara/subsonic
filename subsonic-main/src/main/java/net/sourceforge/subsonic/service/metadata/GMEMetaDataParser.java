@@ -86,16 +86,24 @@ public class GMEMetaDataParser extends MetaDataParser {
      */
     static {
         String sep = System.getProperty("file.separator");
-        String baseLibsPath = System.getProperty("user.dir") + sep + "webapps" + sep + "libs" + sep;
+        String baseLibsPath = System.getProperty("user.dir")+sep+"webapps"+sep+"subsonic"+sep+"libgme"+sep;
         if (isMac()) {
             baseLibsPath += "libgme.dylib";
         } else if (isUnix()) {
             baseLibsPath += "libgme.so";
         } else if (isWindows()) {
-            baseLibsPath += "libgme.dll";
+            baseLibsPath = null;
+        } else if (isSolaris()) {
+            baseLibsPath = null;
         } else {
+            baseLibsPath = null;
+        }
+
+        // Unsupported Operating System
+        if (baseLibsPath == null) {
             throw new RuntimeException("Could not find appropriate lib file for the game music library!");
         }
+
         System.load(baseLibsPath);
     }
 }
